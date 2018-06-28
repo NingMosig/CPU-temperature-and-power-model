@@ -29,17 +29,15 @@ clu = 'cpu_usage'
 
 STANDBY_THRESHOLD = 12.0
 
-for 
-
 #df = pd.read_csv('/media/sf_shared_VB/cat-MOBO-0400-9ea3-a5da-94de80a6fc53.csv', usecols = [clx, cly, clu],sep = '\t')
 
-df = pd.read_csv('/media/sf_shared_VB/cleaned_test_data_2.csv', usecols = [clx, cly, clu],sep = '\t')
+df = pd.read_csv('/media/sf_shared_VB/full10_df.csv', usecols =  [clx, clu, cly],sep = '\t')
 print(df[:3])
 
 strongFiltered_df = df.loc[df['power_instant_main']>STANDBY_THRESHOLD]
 strongFiltered_df = strongFiltered_df.loc[(strongFiltered_df != 0).all(1)]
 
-#df = strongFiltered_df
+df = strongFiltered_df
 print(strongFiltered_df[:3])
 
 df[clx+'_2'] = df[clx]**2

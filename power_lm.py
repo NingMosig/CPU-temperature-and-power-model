@@ -12,6 +12,11 @@
 #	  with a very low power, this phisically makes very little sense. It is then removed the lines where the power_instant_main 
 #	  is less than 12 watts
 
+
+filelist = ['cat-MOBO-0400-9ea3-a5da-94de80a6fc53', 'cat-MOBO-0400-9ea3-b7bb-94de80a61c28','cat-MOBO-0400-9ea3-b494-902b34dce3f8']
+
+
+
 import pandas as pd
 from sklearn.preprocessing import PolynomialFeatures
 #from sklearn.model_selection import train_test_split
@@ -29,9 +34,21 @@ clu = 'cpu_usage'
 
 STANDBY_THRESHOLD = 12.0
 
+df_a = pd.DataFrame(columns = [clx, cly,clu])
+print(df_a)
+
 #df = pd.read_csv('/media/sf_shared_VB/cat-MOBO-0400-9ea3-a5da-94de80a6fc53.csv', usecols = [clx, cly, clu],sep = '\t')
 
-df = pd.read_csv('/media/sf_shared_VB/cleaned_test_data_2.csv', usecols = [clx, cly, clu],sep = '\t')
+for filename in filelist:
+	filepath = '/media/sf_shared_VB/' + filename +'.csv'
+	df = pd.read_csv(filepath, usecols = [clx,cly,clu], sep = '\t')
+	print('df.size: ', df.shape[0])
+	df_a = df_a.append(df)
+	
+print('s_df.size: ', df_a.shape[0])
+df = df_a
+
+#df = pd.read_csv('/media/sf_shared_VB/cleaned_test_data_2.csv', usecols = [clx, cly, clu],sep = '\t')
 print(df[:3])
 
 strongFiltered_df = df.loc[df['power_instant_main']>STANDBY_THRESHOLD]
@@ -56,7 +73,7 @@ X = df[['ones', clx, clx+'_2', clx+'_3']]
 
 Y = df[cly]
 
-lm = Lasso()
+lm = LinearRegression()
 cv = ShuffleSplit(n_splits=3, test_size=0.33)
 scores = cross_val_score(lm, X, Y, cv=cv)
 #scores = cross_val_score(lm, X, Y, cv=2)
