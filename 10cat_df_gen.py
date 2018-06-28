@@ -47,6 +47,7 @@ for filename in os.listdir('/media/sf_shared_VB/'):
         #X = poly.fit_transform(df[[clx,clu]].as_matrix())
 
         X = df[['ones', clx, clx+'_2', clx+'_3']]
+        X = X.as_matrix()
         
         #print(X)
         #quit()
@@ -55,6 +56,7 @@ for filename in os.listdir('/media/sf_shared_VB/'):
         #X = df[[clx]]
 
         Y = df[cly]
+        Y = Y.as_matrix()
         #print(Y)
         #continue
 
@@ -62,10 +64,13 @@ for filename in os.listdir('/media/sf_shared_VB/'):
         
         lm = LinearRegression()
         X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.33, random_state = 5)
-        lm.fit(X_train, Y_train)
+        lm.fit(X_train, Y_train)        
+        print('--------------------------------------------------------------')
+        print('filename: ', filename)
         print('lm_coeffients:', lm.coef_)
         print('lm train score: ', lm.score(X_train, Y_train))
-        print('lm test score: ', lm.score(X_test, Y_test))
+        print('lm test score: ', lm.score(X_test, Y_test))       
+        print('--------------------------------------------------------------')
         continue
         
         cv = ShuffleSplit(n_splits=3, test_size=0.33)

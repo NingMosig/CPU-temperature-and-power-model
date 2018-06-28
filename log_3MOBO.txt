@@ -1,0 +1,13 @@
+
+Columns: [cpu_frequency, power_instant_main, cpu_usage]
+
+1_df.size:  727420
+2_df.size:  702642
+3_df.size:  725875
+s_df.size:  2155937
+
+
+CV_score: 0.17(+/_ 0.00)
+lm_coeffients: [ 0.00000000e+00  3.33261503e-01 -1.58210710e-04  2.12425550e-08]
+lm train score:  0.167817604470325
+lm test score:  0.1706317224917091

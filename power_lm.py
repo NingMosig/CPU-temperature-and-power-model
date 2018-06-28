@@ -121,4 +121,4 @@ plt.xlabel(clx)
 plt.title('LM TRAIN DATA: '+clx+' vs '+cly)
 
 
-plt.show()
+plt.savefig('LinearRegression of Power', bbox_inches = 'tight')
