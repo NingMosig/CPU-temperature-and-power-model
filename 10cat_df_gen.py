@@ -5,6 +5,7 @@ from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import ShuffleSplit
 from sklearn.model_selection import train_test_split
 import os
+import matplotlib.pyplot as plt
 
 
 cly = 'power_instant_main'
@@ -70,18 +71,28 @@ for filename in os.listdir('/media/sf_shared_VB/'):
         print('lm_coeffients:', lm.coef_)
         print('lm train score: ', lm.score(X_train, Y_train))
         print('lm test score: ', lm.score(X_test, Y_test))       
-        print('--------------------------------------------------------------')
-        continue
+        print()
         
         cv = ShuffleSplit(n_splits=3, test_size=0.33)
         scores_cv = cross_val_score(lm, X, Y, cv=cv)
         scores_3fold = cross_val_score(lm, X, Y, cv=3)
 
         #print scores for this df
-        print('--------------------------------------------------------------')
-        print('filename: ', filename)
+        print()
         print("scores_cv: %0.2f(+/_ %0.2f)" % (scores_cv.mean(), scores_cv.std() * 2))
         print("scores_3fold: %0.2f(+/_ %0.2f)" % (scores_3fold.mean(), scores_3fold.std() * 2))
         print('--------------------------------------------------------------')
+
+        cpu_frequency = df[clx].as_matrix()
+        power_instant_main = Y
+        predicted_power = lm.predict(X)
+
+
+        plt.boxplot([cpu_frequency,power_instant_main])
+        #plt.scatter(cpu_frequency, predicted_power)
+        #plt.setp(ax.get_xticklabels(), rotation=30, horizontalalignment='right')
+        filename = filename[:23]
+        plt.savefig('boxplot-'+filename+'.jpg', bbox_inches = 'tight')
+        quit() 
         
 
